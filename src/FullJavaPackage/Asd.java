@@ -17,8 +17,9 @@ public class Asd {
     JTextField ihaleadi_tf;
     Connection connection;
     ResultSet resultSet;
+    Statement statement;
 
-    //7878
+
     Asd() {
         jFrame = new JFrame();
         jFrame.setLocationRelativeTo(null);
@@ -51,7 +52,7 @@ public class Asd {
 
         try {
             connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/ihale?user=root&password=1234");
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             resultSet = statement.executeQuery("select * from 90kalem");
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
@@ -86,13 +87,7 @@ public class Asd {
             e.printStackTrace();
 
         }
-        kayitekle_btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                data[0] = ihaleadi_tf.getText();
-                defaultTableModel.addRow(data);
-            }
-        });
+
     }
 
 
