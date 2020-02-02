@@ -18,12 +18,14 @@ public class Asd {
     Connection connection;
     ResultSet resultSet;
     Statement statement;
+    ResultSetMetaData resultSetMetaData;
+    PreparedStatement preparedStatement;
 
 
     Asd() {
         jFrame = new JFrame();
         jFrame.setLocationRelativeTo(null);
-        jFrame.setSize(600, 500);
+        jFrame.setSize(800, 500);
         jFrame.setLayout(null);
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -36,7 +38,7 @@ public class Asd {
         Object[] data = new Object[9];
         Object[] column = new Object[9];
         defaultTableModel = new DefaultTableModel();
-        jTable.setModel(defaultTableModel);
+jTable.setModel(defaultTableModel);
         jTable.setAutoCreateRowSorter(true);
         jScrollPane = new JScrollPane();
         jScrollPane.setViewportView(jTable);
@@ -54,7 +56,7 @@ public class Asd {
             connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/ihale?user=root&password=1234");
             statement = connection.createStatement();
             resultSet = statement.executeQuery("select * from 90kalem");
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            resultSetMetaData = resultSet.getMetaData();
 
             while (resultSet.next()) {
 
@@ -87,6 +89,29 @@ public class Asd {
             e.printStackTrace();
 
         }
+        kayitekle_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+                    preparedStatement = connection.prepareStatement("insert into 90kalem(JenerikAdı) values(?)");
+                     preparedStatement.setString(1,ihaleadi_tf.getText());
+                    String resultSet1 = String.valueOf(preparedStatement.executeUpdate());
+
+
+                         data[1] = resultSet1;
+                         defaultTableModel.addRow(data);
+                         defaultTableModel.fireTableDataChanged();
+
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
+
+            }
+
+        });
 
     }
 
