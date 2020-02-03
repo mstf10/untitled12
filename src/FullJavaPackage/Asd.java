@@ -38,7 +38,7 @@ public class Asd {
         Object[] data = new Object[9];
         Object[] column = new Object[9];
         defaultTableModel = new DefaultTableModel();
-jTable.setModel(defaultTableModel);
+        jTable.setModel(defaultTableModel);
         jTable.setAutoCreateRowSorter(true);
         jScrollPane = new JScrollPane();
         jScrollPane.setViewportView(jTable);
@@ -86,6 +86,9 @@ jTable.setModel(defaultTableModel);
 
             }
         } catch (SQLException e) {
+            if (connection == null) {
+                System.out.println("Veritabanına Bağlanılmadı..");
+            }
             e.printStackTrace();
 
         }
@@ -94,20 +97,14 @@ jTable.setModel(defaultTableModel);
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    preparedStatement = connection.prepareStatement("insert into 90kalem(JenerikAdı) values(?)");
-                     preparedStatement.setString(1,ihaleadi_tf.getText());
-                    String resultSet1 = String.valueOf(preparedStatement.executeUpdate());
-
-
-                         data[1] = resultSet1;
-                         defaultTableModel.addRow(data);
-                         defaultTableModel.fireTableDataChanged();
-
-
+                    data[1] = ihaleadi_tf.getText();
+                    defaultTableModel.addRow(data);
+                    statement = connection.createStatement();
+                    statement.executeUpdate("insert into 90kalem(JenerikAdı) values('"
+                            + ihaleadi_tf.getText() + "')");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-
 
             }
 
