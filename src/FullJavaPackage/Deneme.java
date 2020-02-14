@@ -25,6 +25,7 @@ public class Deneme {
         setjTable();
         setjTextField();
         setjButton_kaydet();
+        setjButton_sil();
     }
 
     private void setjFrame() {
@@ -129,6 +130,31 @@ public class Deneme {
 
             }
         });
+    }
+
+    private void setjButton_sil() {
+        jButton_sil = new JButton("   Sil   ");
+        jFrame.getContentPane().add(jButton_sil);
+        jButton_sil.setBounds(250, 320, 120, 20);
+        jButton_sil.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int silinecek_satır = jTable.getSelectedRow();
+                String satır_sil = String.valueOf(defaultTableModel.getValueAt(silinecek_satır, 0));
+                System.out.println(satır_sil);
+                defaultTableModel.removeRow(silinecek_satır);
+                try {
+                    Statement statement=connection.createStatement();
+                    statement.executeUpdate("delete from 90kalem where SıraNo="+satır_sil);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
+
+            }
+        });
+
+
     }
 
 
