@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.security.PrivateKey;
 import java.sql.*;
 
 public class Deneme {
@@ -18,6 +17,7 @@ public class Deneme {
     String[] sütun;
     Object[] satır;
     Connection connection;
+    Dimension dimension;
 
     Deneme() {
         setjFrame();
@@ -32,45 +32,47 @@ public class Deneme {
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.setLayout(null);
-        jFrame.setBounds(300, 300, 500, 600);
         jFrame.getContentPane().setBackground(Color.orange);
-
+        dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        jFrame.setBounds(0, 0, dimension.width, dimension.height);
     }
 
     private void setjScrollPane() {
         jScrollPane = new JScrollPane();
         jFrame.getContentPane().add(jScrollPane);
         jScrollPane.setBackground(Color.cyan);
-        jScrollPane.setBounds(0, 0, 500, 300);
+        jScrollPane.setBounds(0, 0, dimension.width / 2, 300);
         jFrame.getContentPane().add(jScrollPane);
     }
 
     private void setjTable() {
         jTable = new JTable();
         defaultTableModel = new DefaultTableModel();
+//        jTable.setAutoCreateRowSorter(true);
         jTable.setModel(defaultTableModel);
         jScrollPane.setViewportView(jTable);
+        jTable.setFillsViewportHeight(true);
         dbConnect();
         try {
-
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from 90kalem");
-            String[] sütun = new String[resultSet.getMetaData().getColumnCount()];
+            sütun = new String[resultSet.getMetaData().getColumnCount()];
+            satır = new Object[resultSet.getMetaData().getColumnCount()];
             for (int i = 0; i < resultSet.getMetaData().getColumnCount(); i++) {
                 sütun[i] = resultSet.getMetaData().getColumnName(i + 1);
                 defaultTableModel.setColumnIdentifiers(sütun);
             }
 
-
+            while (resultSet.next()) {
+                for (int ix = 0; ix < resultSet.getMetaData().getColumnCount(); ix++) {
+                    satır[ix] = resultSet.getString(ix + 1);
+                }
+                defaultTableModel.addRow(satır);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-
-        satır = new Object[2];
-        satır[0] = "asdasd";
-        satır[1] = "asd1231edasd";
-        defaultTableModel.addRow(satır);
 
     }
 
@@ -96,13 +98,19 @@ public class Deneme {
         jButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                satır[0] = jTextField.getText();
-                defaultTableModel.addRow(new Object[]{satır[0]});
+                satır[1] = jTextField.getText();
                 dbConnect();
                 try {
+                    PreparedStatement preparedStatement = connection.prepareStatement(
+                            "insert into 90kalem(JenerikAdı) values(?)");
                     Statement statement = connection.createStatement();
-                    statement.executeUpdate("insert into 90kalem(SıraNo) values( '" + jTextField.getText() + "')");
-
+                    preparedStatement.setString(1, jTextField.getText());
+                    preparedStatement.executeQuery();
+                    ResultSet resultSet = statement.executeQuery("select SıraNo from 90kalem");
+                    while (resultSet.next()) {
+                        satır[0] = resultSet.getString(1);
+                    }
+                    defaultTableModel.addRow(satır);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }

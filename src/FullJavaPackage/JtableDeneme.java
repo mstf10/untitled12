@@ -8,21 +8,21 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 
-public class Asd {
+public class JtableDeneme {
     JFrame jFrame;
     JScrollPane jScrollPane;
     DefaultTableModel defaultTableModel;
     JTable jTable;
     JButton kayitekle_btn;
+    JButton kayıtsil_btn;
     JTextField ihaleadi_tf;
     Connection connection;
     ResultSet resultSet;
     Statement statement;
     ResultSetMetaData resultSetMetaData;
-    PreparedStatement preparedStatement;
 
 
-    Asd() {
+    JtableDeneme() {
         jFrame = new JFrame();
         jFrame.setLocationRelativeTo(null);
         jFrame.setSize(800, 500);
@@ -31,6 +31,8 @@ public class Asd {
 
         kayitekle_btn = new JButton("Kayıt Ekle");
         kayitekle_btn.setBounds(150, 250, 100, 20);
+        kayıtsil_btn = new JButton("Kayıt Sil");
+        kayıtsil_btn.setBounds(250, 250, 100, 20);
         ihaleadi_tf = new JTextField(20);
         ihaleadi_tf.setBounds(30, 250, 100, 20);
 
@@ -50,6 +52,7 @@ public class Asd {
         jFrame.getContentPane().add(jScrollPane);
         jFrame.getContentPane().add(kayitekle_btn);
         jFrame.getContentPane().add(ihaleadi_tf);
+        jFrame.getContentPane().add(kayıtsil_btn);
         jFrame.getContentPane().setLayout(null);
 
         try {
@@ -70,7 +73,6 @@ public class Asd {
                 column[6] = resultSetMetaData.getColumnName(7);
                 column[7] = resultSetMetaData.getColumnName(8);
                 column[8] = resultSetMetaData.getColumnName(9);
-
                 defaultTableModel.setColumnIdentifiers(column);
 
                 data[0] = resultSet.getString(1);
@@ -97,11 +99,13 @@ public class Asd {
             public void actionPerformed(ActionEvent e) {
 
                 try {
+
                     data[1] = ihaleadi_tf.getText();
-                    defaultTableModel.addRow(data);
-                    statement = connection.createStatement();
                     statement.executeUpdate("insert into 90kalem(JenerikAdı) values('"
-                            + ihaleadi_tf.getText() + "')");
+                            + data[1] + "')");
+                    defaultTableModel.addRow(data);
+
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -109,12 +113,25 @@ public class Asd {
             }
 
         });
+        kayıtsil_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = jTable.getSelectedRow();
+                System.out.println(row);
+                try {
+                    statement.executeUpdate("delete from 90kalem where " + row);
+                    System.out.println("asd");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
     }
 
 
     public static void main(String[] args) {
-        Asd asd = new Asd();
+        JtableDeneme asd = new JtableDeneme();
         asd.jFrame.setVisible(true);
 
 
