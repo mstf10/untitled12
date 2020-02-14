@@ -3,8 +3,7 @@ package FullJavaPackage;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.*;
 
 public class Deneme {
@@ -12,7 +11,8 @@ public class Deneme {
     private JScrollPane jScrollPane;
     private JTable jTable;
     private JTextField jTextField;
-    private JButton jButton;
+    private JButton jButton_kaydet;
+    private JButton jButton_sil;
     DefaultTableModel defaultTableModel;
     String[] sütun;
     Object[] satır;
@@ -24,7 +24,7 @@ public class Deneme {
         setjScrollPane();
         setjTable();
         setjTextField();
-        setjButton();
+        setjButton_kaydet();
     }
 
     private void setjFrame() {
@@ -89,13 +89,24 @@ public class Deneme {
         jTextField = new JTextField();
         jFrame.getContentPane().add(jTextField);
         jTextField.setBounds(0, 320, 120, 20);
+        jTextField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                jTextField.setText("");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                jTextField.setText("Jenerik Adı");
+            }
+        });
     }
 
-    private void setjButton() {
-        jButton = new JButton("Kaydet");
-        jFrame.getContentPane().add(jButton);
-        jButton.setBounds(130, 320, 120, 20);
-        jButton.addActionListener(new ActionListener() {
+    private void setjButton_kaydet() {
+        jButton_kaydet = new JButton("Kaydet");
+        jFrame.getContentPane().add(jButton_kaydet);
+        jButton_kaydet.setBounds(130, 320, 120, 20);
+        jButton_kaydet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 satır[1] = jTextField.getText();
@@ -111,6 +122,7 @@ public class Deneme {
                         satır[0] = resultSet.getString(1);
                     }
                     defaultTableModel.addRow(satır);
+                    jTextField.setText("");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
