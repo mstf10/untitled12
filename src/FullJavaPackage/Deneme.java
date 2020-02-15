@@ -14,10 +14,18 @@ public class Deneme {
     private JTextField jTextField_miktar;
     private JTextField jTextField_birimi;
     private JTextField jTextField_mengücek;
+    private JTextField jTextField_ilsağlık;
+    private JTextField jTextField_refahiye;
+    private JTextField jTextField_tercan;
+    private JTextField jTextField_adsm;
     private JLabel jLabel_jenerikadı;
     private JLabel jLabel_miktar;
     private JLabel jLabel_birimi;
     private JLabel jLabel_mengücek;
+    private JLabel jLabel_ilsağlık;
+    private JLabel jLabel_refahiye;
+    private JLabel jLabel_tercan;
+    private JLabel jLabel_adsm;
     private JButton jButton_kaydet;
     private JButton jButton_sil;
     private JButton jButton_yenile;
@@ -38,10 +46,18 @@ public class Deneme {
         setjTextField_miktar();
         setjTextField_birimi();
         setjTextField_mengücek();
+        setjTextField_ilsağlık();
+        setjTextField_refahiye();
+        setjTextField_tercan();
+        setjTextField_adsm();
         setjLabel_jenerikadı();
         setjLabel_miktar();
         setjLabel_birimi();
         setjLabel_mengücek();
+        setjLabel_ilsağlık();
+        setjLabel_refahiye();
+        setjLabel_tercan();
+        setjLabel_adsm();
     }
 
     private void setjFrame() {
@@ -107,6 +123,7 @@ public class Deneme {
         jFrame.getContentPane().add(jTextField_jenerikadı);
         jTextField_jenerikadı.setBounds(0, 320, 120, 20);
 
+
     }
 
     private void setjLabel_jenerikadı() {
@@ -141,16 +158,67 @@ public class Deneme {
         jLabel_birimi.setBounds(240, 300, 120, 20);
 
     }
-    private void setjTextField_mengücek(){
-        jTextField_mengücek= new JTextField();
+
+    private void setjTextField_mengücek() {
+        jTextField_mengücek = new JTextField();
         jFrame.getContentPane().add(jTextField_mengücek);
-        jTextField_mengücek.setBounds(360,320,120,20);
+        jTextField_mengücek.setBounds(360, 320, 120, 20);
     }
-private void setjLabel_mengücek(){
-        jLabel_mengücek= new JLabel("Mengücek");
+
+    private void setjLabel_mengücek() {
+        jLabel_mengücek = new JLabel("Mengücek");
         jFrame.getContentPane().add(jLabel_mengücek);
-        jLabel_mengücek.setBounds(360,300,120,20);
-}
+        jLabel_mengücek.setBounds(360, 300, 120, 20);
+    }
+
+    private void setjTextField_ilsağlık() {
+        jTextField_ilsağlık = new JTextField();
+        jFrame.getContentPane().add(jTextField_ilsağlık);
+        jTextField_ilsağlık.setBounds(480, 320, 120, 20);
+    }
+
+    private void setjLabel_ilsağlık() {
+        jLabel_ilsağlık = new JLabel("İl Sağlık");
+        jFrame.getContentPane().add(jLabel_ilsağlık);
+        jLabel_ilsağlık.setBounds(480, 300, 120, 20);
+    }
+
+    private void setjTextField_refahiye() {
+        jTextField_refahiye = new JTextField();
+        jFrame.getContentPane().add(jTextField_refahiye);
+        jTextField_refahiye.setBounds(600, 320, 120, 20);
+    }
+
+    private void setjLabel_refahiye() {
+        jLabel_refahiye = new JLabel("Refahiye");
+        jFrame.getContentPane().add(jLabel_refahiye);
+        jLabel_refahiye.setBounds(600, 300, 120, 20);
+    }
+
+    private void setjTextField_tercan() {
+        jTextField_tercan = new JTextField();
+        jFrame.getContentPane().add(jTextField_tercan);
+        jTextField_tercan.setBounds(720, 320, 120, 20);
+    }
+
+    private void setjLabel_tercan() {
+        jLabel_tercan = new JLabel("Tercan");
+        jFrame.getContentPane().add(jLabel_tercan);
+        jLabel_tercan.setBounds(720, 300, 120, 20);
+    }
+
+    private void setjTextField_adsm() {
+        jTextField_adsm = new JTextField();
+        jFrame.getContentPane().add(jTextField_adsm);
+        jTextField_adsm.setBounds(840, 320, 120, 20);
+    }
+
+    private void setjLabel_adsm() {
+        jLabel_adsm = new JLabel("Adsm");
+        jFrame.getContentPane().add(jLabel_adsm);
+        jLabel_adsm.setBounds(840, 300, 120, 20);
+    }
+
 
     private void setjButton_kaydet() {
         jButton_kaydet = new JButton("Kaydet");
@@ -162,14 +230,28 @@ private void setjLabel_mengücek(){
                 satır[1] = jTextField_jenerikadı.getText();
                 satır[2] = jTextField_miktar.getText();
                 satır[3] = jTextField_birimi.getText();
+                satır[4] = jTextField_mengücek.getText();
+                satır[5] = jTextField_ilsağlık.getText();
+                satır[6] = jTextField_refahiye.getText();
+                satır[7] = jTextField_tercan.getText();
+                satır[8] = jTextField_adsm.getText();
                 dbConnect();
                 try {
                     PreparedStatement preparedStatement = connection.prepareStatement(
-                            "insert into 90kalem(JenerikAdı,miktarı,birimi) values(?,?,?)");
+                            "insert into 90kalem(JenerikAdı,miktarı,birimi," +
+                                    "`Mengücek Gazi Eğitim ve Araştırma Hastanesi`," +
+                                    "`İl Sağlık Müdürlüğü`,`Refahiye Devlet Hastanesi`," +
+                                    "`Tercan Devlet Hastanesi`," +
+                                    "`Ağız ve Diş Sağlığı`) values(?,?,?,?,?,?,?,?)");
                     Statement statement = connection.createStatement();
                     preparedStatement.setString(1, jTextField_jenerikadı.getText());
                     preparedStatement.setString(2, jTextField_miktar.getText());
                     preparedStatement.setString(3, jTextField_birimi.getText());
+                    preparedStatement.setString(4, jTextField_mengücek.getText());
+                    preparedStatement.setString(5, jTextField_ilsağlık.getText());
+                    preparedStatement.setString(6, jTextField_refahiye.getText());
+                    preparedStatement.setString(7, jTextField_tercan.getText());
+                    preparedStatement.setString(8, jTextField_adsm.getText());
                     preparedStatement.executeQuery();
                     ResultSet resultSet = statement.executeQuery("select SıraNo from 90kalem");
                     while (resultSet.next()) {
@@ -179,6 +261,12 @@ private void setjLabel_mengücek(){
                     jTextField_jenerikadı.setText("");
                     jTextField_miktar.setText("");
                     jTextField_birimi.setText("");
+                    jTextField_mengücek.setText("");
+                    jTextField_ilsağlık.setText("");
+                    jTextField_refahiye.setText("");
+                    jTextField_tercan.setText("");
+                    jTextField_adsm.setText("");
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -208,10 +296,10 @@ private void setjLabel_mengücek(){
         });
     }
 
-private void setjButton_yenile(){
-        jButton_yenile= new JButton("Yenile");
+    private void setjButton_yenile() {
+        jButton_yenile = new JButton("Yenile");
         jFrame.getContentPane().add(jButton_yenile);
-        jButton_yenile.setBounds(370,370,120,20);
+        jButton_yenile.setBounds(370, 370, 120, 20);
         jButton_yenile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -219,7 +307,7 @@ private void setjButton_yenile(){
 
             }
         });
-}
+    }
 
 
     public static void main(String[] args) {
