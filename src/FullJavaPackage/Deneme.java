@@ -105,7 +105,38 @@ public class Deneme {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        jTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
+                int seçim = jTable.getSelectedRow();
+                jTextField_jenerikadı.setText(String.valueOf(defaultTableModel.getValueAt(seçim, 1)));
+                jTextField_miktar.setText(String.valueOf(defaultTableModel.getValueAt(seçim, 2)));
+                jTextField_birimi.setText(String.valueOf(defaultTableModel.getValueAt(seçim, 3)));
+                jTextField_mengücek.setText(String.valueOf(defaultTableModel.getValueAt(seçim, 4)));
+                jTextField_ilsağlık.setText(String.valueOf(defaultTableModel.getValueAt(seçim, 5)));
+                jTextField_refahiye.setText(String.valueOf(defaultTableModel.getValueAt(seçim, 6)));
+                jTextField_tercan.setText(String.valueOf(defaultTableModel.getValueAt(seçim, 7)));
+                jTextField_adsm.setText(String.valueOf(defaultTableModel.getValueAt(seçim, 8)));
+
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    jTable.getSelectionModel().clearSelection();
+                    seçim = jTable.getSelectedRow();
+                    if (seçim < 0) {
+                        jTextField_jenerikadı.setText("");
+                        jTextField_miktar.setText("");
+                        jTextField_birimi.setText("");
+                        jTextField_mengücek.setText("");
+                        jTextField_ilsağlık.setText("");
+                        jTextField_refahiye.setText("");
+                        jTextField_tercan.setText("");
+                        jTextField_adsm.setText("");
+                    }
+                }
+            }
+
+
+        });
 
     }
 
