@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.print.PrinterException;
 import java.sql.*;
 
 public class Deneme {
@@ -29,6 +30,7 @@ public class Deneme {
     private JButton jButton_kaydet;
     private JButton jButton_sil;
     private JButton jButton_yenile;
+    private JButton jButton_yazdır;
     DefaultTableModel defaultTableModel;
     String[] sütun;
     Object[] satır;
@@ -58,6 +60,7 @@ public class Deneme {
         setjLabel_refahiye();
         setjLabel_tercan();
         setjLabel_adsm();
+        setjButton_yazdır();
     }
 
     private void setjFrame() {
@@ -327,10 +330,28 @@ public class Deneme {
         });
     }
 
+    private void setjButton_yazdır() {
+        jButton_yazdır = new JButton("Yazdır");
+
+        jFrame.getContentPane().add(jButton_yazdır);
+        jButton_yazdır.setBounds(370, 370, 120, 20);
+        jButton_yazdır.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    boolean complete = jTable.print();
+                } catch (PrinterException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+    }
+
     private void setjButton_yenile() {
         jButton_yenile = new JButton("Yenile");
         jFrame.getContentPane().add(jButton_yenile);
-        jButton_yenile.setBounds(370, 370, 120, 20);
+        jButton_yenile.setBounds(490, 370, 120, 20);
         jButton_yenile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
